@@ -2,9 +2,9 @@
 
 # Telas
 
-[] - Tela inicial
-  [] - Usuário Logado
-  [] - Usuário deslogado
+[x] - Tela inicial
+  [x] - Usuário Logado
+  [x] - Usuário deslogado
 
 
 # Features
