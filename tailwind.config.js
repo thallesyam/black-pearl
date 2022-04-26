@@ -11,6 +11,9 @@ module.exports = {
         xxs: '.625rem',
         xxss: '.375rem',
       },
+      screens: {
+        'md': '768px',
+      },
       minHeight: {
         'audioContent': '500px',
       },
