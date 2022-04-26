@@ -19,6 +19,9 @@ module.exports = {
       },
       height: {
         'audioButton': '4.2rem'
+      },
+      maxWidth: {
+        'buttonLogin': '200px'
       }
     },
     colors: {
