@@ -6,9 +6,20 @@ module.exports = {
 
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
-    fontSize: {
-      xxs: '.625rem'
+    extend: {
+      fontSize: {
+        xxs: '.625rem',
+        xxss: '.375rem',
+      },
+      minHeight: {
+        'audioContent': '500px',
+      },
+      maxHeight: {
+        'audioContent': '16rem',
+      },
+      height: {
+        'audioButton': '4.2rem'
+      }
     },
     colors: {
       'primary': {
