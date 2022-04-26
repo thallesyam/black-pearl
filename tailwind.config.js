@@ -7,6 +7,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    fontSize: {
+      xxs: '.625rem'
+    },
     colors: {
       'primary': {
         'light': '#C799DD', 

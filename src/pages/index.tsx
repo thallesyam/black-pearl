@@ -1,5 +1,12 @@
+import { Header } from "../components/Header";
+import { Layout } from "../components/Layout";
+
 export default function Home() {
   return (
-    <h1 className="text-white">Black Pearl!</h1>
+    <Layout title="Home">
+      <Header />
+
+      <h1 className="text-white">Black Pearl!</h1>
+    </Layout>
   )
 }
