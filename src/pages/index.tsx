@@ -1,13 +1,16 @@
 import { Layout } from "../components/Layout";
 import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
 import { AudiosWrapper } from "../components/AudiosWrapper";
+import { FormAudio } from "../components/FormAudio";
 import { Audio } from "../components/Audio";
 import { AddButton } from "../components/AddButton";
 import { Login } from "../components/Login";
+import { Footer } from "../components/Footer";
+import { Title } from "../components/Title";
 
 export default function Home() {
   const isLogged = true
+  const isCreateAudio = true
 
   return (
     <Layout title="Home">
@@ -16,12 +19,20 @@ export default function Home() {
 
         {isLogged ? (
           <AudiosWrapper>
-            <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
-              <Audio />
-              <Audio />
-            </section>
+            {isCreateAudio ? (
+              <FormAudio />
+            ) : (
+              <section>
+                <Title title="Meus Audios" />
 
-            <AddButton />
+                <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
+                  <Audio />
+                  <Audio />
+                </section>
+
+                <AddButton />           
+              </section>
+            )}
           </AudiosWrapper>
         ) : (
           <Login />
