@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { api } from "../../services/api";
 import { AudioInput } from "../AudioInput";
 import { Button } from "../Button";
 import { Input } from "../Input";
@@ -14,15 +15,17 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
   const [file, setFile] = useState<File>({} as File)
   const inputClasses = 'text-sm text-black h-10 w-full rounded-lg px-2 outline-none focus:border-primary-dark focus:border-2'
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const formData = new FormData()
 
-    console.log({
-      name,
-      timebox,
-      file
-    })
+    formData.append('name', name)
+    formData.append('timebox', String(timebox))
+    formData.append('file', file)
 
+    const { data } = await api.post('/audio/create', formData)
+
+    console.log(data)
   }
   
   return (
@@ -38,7 +41,7 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
           onChange={event => setName(event.target.value)} 
           name="name" 
           className={inputClasses} 
-          isLabel 
+          isshowlabel="true"
           textlabel="Nome do audio" 
         />
           
@@ -46,7 +49,7 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
           onChange={event => setTimebox(Number(event.target.value))} 
           name="timebox" 
           className={inputClasses} 
-          isLabel 
+          isshowlabel="true"
           textlabel="Tempo aproximado" 
         />
       
