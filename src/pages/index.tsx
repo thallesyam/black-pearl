@@ -18,6 +18,7 @@ export default function Home() {
           <AudiosWrapper>
             <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
               <Audio />
+              <Audio />
             </section>
 
             <AddButton />

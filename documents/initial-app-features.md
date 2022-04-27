@@ -5,9 +5,11 @@
 [x] - Tela inicial
   [x] - Usuário Logado
   [x] - Usuário deslogado
-
+  [] - Criação de audio
 
 # Features
+
+[] - O upload do audio pode ser feito via dropdown ou selecionando
 
 [] - O usuário deve poder se autenticar com google
 
