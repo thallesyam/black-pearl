@@ -4,7 +4,11 @@ import { Button } from "../Button";
 import { Input } from "../Input";
 import { Title } from "../Title";
 
-export function FormAudio() {
+type IFormAudio = {
+  toggleCreateAudio: () => void
+}
+
+export function FormAudio({ toggleCreateAudio }: IFormAudio) {
   const [name, setName] = useState('')
   const [timebox, setTimebox] = useState(0)
   const [file, setFile] = useState<File>({} as File)
@@ -23,7 +27,11 @@ export function FormAudio() {
   
   return (
     <form onSubmit={handleSubmit}>
-      <Title title="Adicione um audio" />
+      <div className="flex justify-between items-center">
+        <Title title="Adicione um audio" />
+        
+        <a className="text-primary-dark cursor-pointer transition-all  hover:underline " onClick={() => toggleCreateAudio()}>Retornar</a>
+      </div>
 
       <section className="mt-8 flex flex-col gap-6">
         <Input 

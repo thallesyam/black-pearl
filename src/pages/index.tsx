@@ -7,10 +7,15 @@ import { AddButton } from "../components/AddButton";
 import { Login } from "../components/Login";
 import { Footer } from "../components/Footer";
 import { Title } from "../components/Title";
+import { useState } from "react";
 
 export default function Home() {
   const isLogged = true
-  const isCreateAudio = true
+  const [isCreateAudio, setIsCreateAudio] = useState(false)
+
+  function toggleCreateAudio() {
+    setIsCreateAudio(!isCreateAudio)
+  }
 
   return (
     <Layout title="Home">
@@ -20,7 +25,7 @@ export default function Home() {
         {isLogged ? (
           <AudiosWrapper>
             {isCreateAudio ? (
-              <FormAudio />
+              <FormAudio toggleCreateAudio={toggleCreateAudio} />
             ) : (
               <section>
                 <Title title="Meus Audios" />
@@ -30,7 +35,7 @@ export default function Home() {
                   <Audio title="Jack Hannaford Jake" />
                 </section>
 
-                <AddButton />           
+                <AddButton onClick={() => toggleCreateAudio()} />           
               </section>
             )}
           </AudiosWrapper>
