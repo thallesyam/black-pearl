@@ -26,8 +26,8 @@ export default function Home() {
                 <Title title="Meus Audios" />
 
                 <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
-                  <Audio />
-                  <Audio />
+                  <Audio title="The Boy who Flew too High Natalie" />
+                  <Audio title="Jack Hannaford Jake" />
                 </section>
 
                 <AddButton />           
