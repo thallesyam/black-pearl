@@ -1,6 +1,9 @@
+import { useUser } from "../../contexts/UserContext";
 import { Button } from "../Button";
 
 export function Login() {
+  const { handleClickSignIn } = useUser()
+  
   return (
     <section className="px-8 md:max-w-5xl mx-auto">
       <div className="flex justify-center items-center flex-col w-full bg-white px-8 min-h-audioContent rounded-lg">
@@ -9,7 +12,7 @@ export function Login() {
           faça o login com uma das suas redes sociais!
         </p>
 
-        <Button text="Faça o login" className="max-w-buttonLogin w-full h-12 text-xxs font-bold text-black" />
+        <Button text="Faça o login" onClick={handleClickSignIn} className="max-w-buttonLogin w-full h-12 text-xxs font-bold text-black" />
       </div>
     </section>
   )

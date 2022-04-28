@@ -8,13 +8,20 @@ import { Login } from "../components/Login";
 import { Footer } from "../components/Footer";
 import { Title } from "../components/Title";
 import { useState } from "react";
+import { useUser } from "../contexts/UserContext";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const isLogged = true
+  const { isLogged } = useUser()
+  const { status } = useSession()
   const [isCreateAudio, setIsCreateAudio] = useState(false)
 
   function toggleCreateAudio() {
     setIsCreateAudio(!isCreateAudio)
+  }
+
+  if(status == 'loading') {
+    return <p>Loading</p>
   }
 
   return (

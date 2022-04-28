@@ -10,7 +10,6 @@ export const config = {
 };
 
 async function uploadAudioToCloud(file: File): Promise<any> {
-  console.log(file.filepath)
 
   const audio = cloudinary.v2.uploader.upload(
     file.filepath,
@@ -49,7 +48,6 @@ export default function handler(request: NextApiRequest, response: NextApiRespon
   form.parse(request, async (err, fields, files) => {
     const { name, timebox } = fields
     const audio = await saveAudio(files.file as File)
-    console.log({audio, name, timebox})
   })
 
   return response.status(200).json({ message: 'OK'})
