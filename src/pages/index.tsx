@@ -43,8 +43,10 @@ type IHome = {
 export default function Home({ user }: IHome) {
   const { isLogged } = useUser()
   const { status } = useSession()
-  const [isCreateAudio, setIsCreateAudio] = useState(false)
   const { audioPlaying, audioEnded } = useAudio()
+  const [played, setPlayed] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isCreateAudio, setIsCreateAudio] = useState(false)
   const audioRef: MutableRefObject<ReactPlayer> = useRef(null)
 
   function onEnded() {
@@ -82,19 +84,29 @@ export default function Home({ user }: IHome) {
                 <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
                   {user.audios.map(audio => (
                     <div key={audio.id}>
-                      <Audio 
-                        title={audio.showName} 
-                        isShowTimebox={audioRef?.current ? Math.floor(audioRef?.current?.getDuration() / 60) : Number(audio.timebox) } 
-                        url={audio.url} 
-                      />
-                      
                       <ReactPlayer
                         ref={audioRef}
                         url={audio.url} 
                         style={{ display: 'none' }} 
                         playing={audioPlaying === audio.url} 
                         onEnded={onEnded} 
-                        onProgress={(e) => console.log(audioRef?.current?.getCurrentTime())} 
+                        onProgress={(progress) => {
+                          setPlayed(progress.playedSeconds);
+                        }}
+                        onDuration={(duration) => {
+                          const minutes = duration / 60
+                          const seconds = minutes % 60
+
+                          setDuration(seconds)
+                        }}
+                      />
+
+                      <Audio 
+                        title={audio.showName} 
+                        isShowTimebox={audioRef?.current ? Math.floor(audioRef?.current?.getDuration() / 60) : Number(audio.timebox) } 
+                        url={audio.url}
+                        currentTime={played}
+                        videoTime={duration}
                       />
                     </div>
 
