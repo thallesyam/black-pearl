@@ -1,6 +1,7 @@
 import { getSession, useSession } from "next-auth/react";
 import { fauna } from "../services/faunadb";
 import { query as q } from 'faunadb'
+import ReactPlayer from "react-player";
 
 import { Layout } from "../components/Layout";
 import { Header } from "../components/Header";
@@ -11,9 +12,10 @@ import { AddButton } from "../components/AddButton";
 import { Login } from "../components/Login";
 import { Footer } from "../components/Footer";
 import { Title } from "../components/Title";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { GetServerSideProps } from "next";
+import { useAudio } from "../contexts/AudioContext";
 
 type IAudio = {
   showName: string
@@ -42,8 +44,7 @@ export default function Home({ user }: IHome) {
   const { isLogged } = useUser()
   const { status } = useSession()
   const [isCreateAudio, setIsCreateAudio] = useState(false)
-
-  console.log(user)
+  const { audioPlaying } = useAudio()
 
   function toggleCreateAudio() {
     setIsCreateAudio(!isCreateAudio)
@@ -61,14 +62,18 @@ export default function Home({ user }: IHome) {
         {isLogged ? (
           <AudiosWrapper>
             {isCreateAudio ? (
-              <FormAudio toggleCreateAudio={toggleCreateAudio} />
+              <FormAudio toggleCreateAudio={toggleCreateAudio}  />
             ) : (
               <section>
                 <Title title="Meus Audios" />
 
                 <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
                   {user.audios.map(audio => (
-                    <Audio key={audio.id} title={audio.showName} isShowTimebox={Number(audio.timebox)} url={audio.url} />
+                    <div key={audio.id}>
+                      <Audio title={audio.showName} isShowTimebox={Number(audio.timebox)} url={audio.url} />
+                      <ReactPlayer url={audioPlaying} controls width={200} height={0} />
+                    </div>
+
                   ))}
                 </section>
 
