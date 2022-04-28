@@ -3,11 +3,12 @@ import { ButtonsWrapper } from "../ButtonsWrapper"
 
 type IAudio = {
   title: string
+  url: string
   isShowButtons?: boolean
   isShowTimebox?: number
 }
 
-export function Audio({ isShowButtons = true, isShowTimebox, title }: IAudio) {
+export function Audio({ isShowButtons = true, isShowTimebox, title, url }: IAudio) {
   return (
     <section className="w-full px-4 py-3 bg-white-dark rounded-lg flex justify-between items-center gap-1">
       <div className="flex items-center gap-1">

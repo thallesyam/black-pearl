@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider  session={pageProps.session}>
       <UserProvider>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
       </UserProvider>
     </SessionProvider>
   )

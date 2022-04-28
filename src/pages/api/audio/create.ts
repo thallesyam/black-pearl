@@ -97,7 +97,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
         createdAt: moment().unix(),
         updatedAt: moment().unix(),
       }
-
   
       const user: IFaunaUser = await fauna.query(
         q.Get(q.Match(q.Index('user_by_email'), userLoggedIn.email))

@@ -1,3 +1,7 @@
+import { getSession, useSession } from "next-auth/react";
+import { fauna } from "../services/faunadb";
+import { query as q } from 'faunadb'
+
 import { Layout } from "../components/Layout";
 import { Header } from "../components/Header";
 import { AudiosWrapper } from "../components/AudiosWrapper";
@@ -9,12 +13,37 @@ import { Footer } from "../components/Footer";
 import { Title } from "../components/Title";
 import { useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { useSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
-export default function Home() {
+type IAudio = {
+  showName: string
+  timebox: string
+  id: string
+  url: string
+  name: string
+  createdAt: number
+  updatedAt: number
+}
+
+type IUser = {
+  audios: IAudio[]
+}
+
+type IFaunaUser = {
+  ref: any
+  data: IUser
+}
+
+type IHome = {
+  user: IUser
+}
+
+export default function Home({ user }: IHome) {
   const { isLogged } = useUser()
   const { status } = useSession()
   const [isCreateAudio, setIsCreateAudio] = useState(false)
+
+  console.log(user)
 
   function toggleCreateAudio() {
     setIsCreateAudio(!isCreateAudio)
@@ -38,8 +67,9 @@ export default function Home() {
                 <Title title="Meus Audios" />
 
                 <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
-                  <Audio title="The Boy who Flew too High Natalie" />
-                  <Audio title="Jack Hannaford Jake" />
+                  {user.audios.map(audio => (
+                    <Audio key={audio.id} title={audio.showName} isShowTimebox={Number(audio.timebox)} url={audio.url} />
+                  ))}
                 </section>
 
                 <AddButton onClick={() => toggleCreateAudio()} />           
@@ -54,4 +84,23 @@ export default function Home() {
       </main>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { user: userLoggedIn } = await getSession({ req: context.req })
+
+
+  const response: IFaunaUser = await fauna.query(
+    q.Get(q.Match(q.Index('user_by_email'), userLoggedIn.email))
+  )
+
+  const user = {
+    audios: response.data.audios
+  }
+
+  return {
+    props: {
+      user
+    },
+  }
 }

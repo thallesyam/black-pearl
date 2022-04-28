@@ -20,10 +20,11 @@
   [x] - Nome
   [x] - Tempo aprox
 
-[] - No Header da aplicação o usuário deve conseguir ver sua imagem e seu nome
+[x] - No Header da aplicação o usuário deve conseguir ver sua imagem e seu nome
 
 [] - Os audios devem reproduzir em sequencia 
 
+[] - Tratativa de estados
 
 # Seria legal se tivesse:
 
