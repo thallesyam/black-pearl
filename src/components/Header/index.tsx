@@ -1,8 +1,9 @@
+import { useUser } from "../../contexts/UserContext"
 import { Button } from "../Button"
 import { UserImage } from "../UserImage"
 
 export function Header() {
-  const isLogged = true
+  const { isLogged, handleClickSignOut } = useUser()
 
   return (
     <header className="bg-primary-dark w-full py-8">
@@ -11,7 +12,7 @@ export function Header() {
           <>
             <UserImage />
       
-            <Button text="Logout" className="w-16 py-3 text-xxs font-light" />
+            <Button text="Logout" onClick={handleClickSignOut} className="w-16 py-3 text-xxs font-light" />
           </>
         )}
       </div>
