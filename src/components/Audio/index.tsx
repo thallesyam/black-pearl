@@ -10,9 +10,10 @@ type IAudio = {
   isShowTimebox?: number
   currentTime?: number
   videoTime?: number
+  videoId?: string
 }
 
-export function Audio({ isShowButtons = true, isShowTimebox, title, url, currentTime, videoTime }: IAudio) {
+export function Audio({ isShowButtons = true, isShowTimebox, title, url, currentTime, videoTime, videoId }: IAudio) {
   const { audioPlaying } = useAudio()
 
   const currentTimeToSeconds = currentTime / 60
@@ -36,7 +37,7 @@ export function Audio({ isShowButtons = true, isShowTimebox, title, url, current
 
       {isShowButtons && <ProgressBar percentage={barPercentage} isAudioPlaying={audioPlaying === url} />}
 
-      {isShowButtons && <ButtonsWrapper />}
+      {isShowButtons && <ButtonsWrapper videoId={videoId} />}
     </section>
   )
 }

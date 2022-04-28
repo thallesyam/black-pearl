@@ -51,10 +51,11 @@ async function uploadAudioToCloud(file: File): Promise<any> {
 
 async function saveAudio(file: File) {
   const image = await uploadAudioToCloud(file)
-
+  
   return {
     url: image.secure_url,
     name: image.original_filename,
+    public_id: image.public_id
   }
 }
 

@@ -67,7 +67,6 @@ export default function Home({ user }: IHome) {
     return <p>Loading</p>
   }
 
-
   return (
     <Layout title="Home">
       <main className="flex flex-col justify-between h-screen">
@@ -101,9 +100,10 @@ export default function Home({ user }: IHome) {
                         }}
                       />
 
-                      <Audio 
+                      <Audio
+                        videoId={audio.id} 
                         title={audio.showName} 
-                        isShowTimebox={audioRef?.current ? Math.floor(audioRef?.current?.getDuration() / 60) : Number(audio.timebox) } 
+                        isShowTimebox={audioRef?.current ? Math.floor(duration) : Number(audio.timebox) } 
                         url={audio.url}
                         currentTime={played}
                         videoTime={duration}
@@ -143,5 +143,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       user
     },
+
   }
 }

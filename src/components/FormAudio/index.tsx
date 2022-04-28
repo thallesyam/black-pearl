@@ -23,9 +23,12 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
     formData.append('timebox', String(timebox))
     formData.append('file', file)
 
-    const { data } = await api.post('/audio/create', formData)
+    const { status } = await api.post('/audio/create', formData)
 
-    console.log(data)
+
+    if(status) {
+      window.location.reload()
+    }
   }
   
   return (
