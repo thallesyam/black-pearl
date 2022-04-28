@@ -1,3 +1,4 @@
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { fauna } from "../services/faunadb";
 import { query as q } from 'faunadb'
@@ -12,7 +13,6 @@ import { AddButton } from "../components/AddButton";
 import { Login } from "../components/Login";
 import { Footer } from "../components/Footer";
 import { Title } from "../components/Title";
-import { useRef, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import { GetServerSideProps } from "next";
 import { useAudio } from "../contexts/AudioContext";
@@ -44,7 +44,18 @@ export default function Home({ user }: IHome) {
   const { isLogged } = useUser()
   const { status } = useSession()
   const [isCreateAudio, setIsCreateAudio] = useState(false)
-  const { audioPlaying } = useAudio()
+  const { audioPlaying, audioEnded } = useAudio()
+  const audioRef: MutableRefObject<ReactPlayer> = useRef(null)
+
+  function onEnded() {
+    const playlist = user.audios.map(audio => audio.url)
+  
+    playlist.map((audio, index) => {
+      if(audio === audioPlaying) {
+        audioEnded(playlist, index)
+      }
+    })
+  }
 
   function toggleCreateAudio() {
     setIsCreateAudio(!isCreateAudio)
@@ -53,6 +64,7 @@ export default function Home({ user }: IHome) {
   if(status == 'loading') {
     return <p>Loading</p>
   }
+
 
   return (
     <Layout title="Home">
@@ -70,8 +82,20 @@ export default function Home({ user }: IHome) {
                 <section className="mt-8 flex flex-col gap-3 overflow-scroll pb-8 max-h-80">
                   {user.audios.map(audio => (
                     <div key={audio.id}>
-                      <Audio title={audio.showName} isShowTimebox={Number(audio.timebox)} url={audio.url} />
-                      <ReactPlayer url={audioPlaying} controls width={200} height={0} />
+                      <Audio 
+                        title={audio.showName} 
+                        isShowTimebox={audioRef?.current ? Math.floor(audioRef?.current?.getDuration() / 60) : Number(audio.timebox) } 
+                        url={audio.url} 
+                      />
+                      
+                      <ReactPlayer
+                        ref={audioRef}
+                        url={audio.url} 
+                        style={{ display: 'none' }} 
+                        playing={audioPlaying === audio.url} 
+                        onEnded={onEnded} 
+                        onProgress={(e) => console.log(audioRef?.current?.getCurrentTime())} 
+                      />
                     </div>
 
                   ))}

@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useContext, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type IAudioContext = {
+  audioEnded: (playlist: string[], currentAudioIndex: number) => void
   handleClickPlay: (url: string) => void
   handleClickPause: () => void
   audioPlaying: string
@@ -27,8 +28,20 @@ export function AudioProvider({ children }: IAudioProvider) {
     setIsPlaying(false)
   }
 
+  function audioEnded(playlist: string[], currentAudioIndex: number) {
+    const playlistLengthValidation = currentAudioIndex >= playlist.length
+
+    if(playlistLengthValidation) {
+      setAudioPlaying('')
+    }
+
+    const nextAudioIndex = playlist[currentAudioIndex + 1]
+
+    setAudioPlaying(nextAudioIndex)
+  }
+
   return (
-    <AudioContext.Provider value={{ handleClickPlay, handleClickPause, audioPlaying, isPLaying }}>
+    <AudioContext.Provider value={{ handleClickPlay, handleClickPause, audioPlaying, isPLaying, audioEnded }}>
       { children }
     </AudioContext.Provider>
   )
