@@ -9,20 +9,23 @@
 
 # Features
 
-[] - O upload do audio pode ser feito via dropdown ou selecionando
+[x] - O upload do audio pode ser feito via dropdown ou selecionando
 
-[] - O usuário deve poder se autenticar com google
+[x] - O usuário deve poder se autenticar com google
 
-[] - O usuário deve poder se autenticar com github
+[x] - Ao se autenticar o usuário deve ser salvo no banco de dados
+
+[x] - O usuário deve poder adicionar um audio
+  [x] - Audio
+  [x] - Nome
+  [x] - Tempo aprox
 
 [] - No Header da aplicação o usuário deve conseguir ver sua imagem e seu nome
 
-[] - Ao se autenticar o usuário deve ser salvo no banco de dados
+[] - Os audios devem reproduzir em sequencia 
 
-[] - O usuário deve poder adicionar um audio
-  [] - Audio
-  [] - Nome
-  [] - Tempo aprox
+
+# Seria legal se tivesse:
 
 [] - O usuário deve poder remover um audio
 
@@ -35,7 +38,6 @@
   [] - por nome
   [] - por data de criação
 
-[] - Os audios devem reproduzir em sequencia 
 
 
 # Requisitos
