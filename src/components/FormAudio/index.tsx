@@ -1,9 +1,13 @@
+import Router from "next/router";
 import { FormEvent, useState } from "react";
+import { ToastContainer } from 'react-toastify';
+
 import { api } from "../../services/api";
 import { AudioInput } from "../AudioInput";
 import { Button } from "../Button";
 import { Input } from "../Input";
 import { Loading } from "../Loading";
+import { notify } from "../Notify";
 import { Title } from "../Title";
 
 type IFormAudio = {
@@ -16,6 +20,7 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
   const [name, setName] = useState('')
   const [timebox, setTimebox] = useState(0)
   const [file, setFile] = useState<File>({} as File)
+
   const inputClasses = 'text-sm text-black h-10 w-full rounded-lg px-2 outline-none focus:border-primary-dark focus:border-2'
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -38,8 +43,16 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
 
     setLoading(false)
 
-    if(status) {
-      window.location.reload()
+    if(status !== 200) {
+      notify("Ocorreu algum erro, tente novamente em alguns minutos!")
+    }
+
+    if(status === 200) {
+      notify("Upload feito com sucesso!")
+
+      setTimeout(() => {
+        Router.reload()
+      }, 2000)
     }
   }
   
@@ -73,6 +86,8 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
         {error !== '' && <p className="text-xs text-red-400 font-bold mt-2">{error}</p>}
         <Button text={loading ? <Loading /> : 'Salvar'} className="py-4 text-black-light text-sm bg-secundary" type="submit" />
       </section>
+
+      <ToastContainer pauseOnHover={false} autoClose={2000} />
     </form>
   )
 }

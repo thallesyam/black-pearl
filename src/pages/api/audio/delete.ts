@@ -38,26 +38,32 @@ export default async function handler(request: NextApiRequest, response: NextApi
     return response.status(401).json({ message: 'User Unauthorized' })
   }
 
-  const user: IFaunaUser = await fauna.query(
-    q.Get(q.Match(q.Index('user_by_email'), userLoggedIn.email))
-  )
-
-  const audios = user.data.audios.filter(audio => audio.id !== id) 
-  const audioToDelete = user.data.audios.find(audio => audio.id === id) 
+  try {
+    const user: IFaunaUser = await fauna.query(
+      q.Get(q.Match(q.Index('user_by_email'), userLoggedIn.email))
+    )
   
-  cloudinary.v2.uploader.destroy(
-    audioToDelete.public_id,
-    { resource_type : 'video' },
-    function(result) {
-      console.log(result)
-     }
-  );
-
-  await fauna.query(
-    q.Update(
-      user.ref,
-      { data: { audios: [...audios] } },
-    )    
-  )
+    const audios = user.data.audios.filter(audio => audio.id !== id) 
+    const audioToDelete = user.data.audios.find(audio => audio.id === id) 
+    
+    cloudinary.v2.uploader.destroy(
+      audioToDelete.public_id,
+      { resource_type : 'video' },
+      function(result) {
+        console.log(result)
+       }
+    );
+  
+    await fauna.query(
+      q.Update(
+        user.ref,
+        { data: { audios: [...audios] } },
+      )    
+    )
+  
+    return response.status(200)
+  } catch (error) {
+    return response.status(500).json({ message: 'Internal server error' })
+  }
 
 }
