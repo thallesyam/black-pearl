@@ -1,5 +1,5 @@
 type IButton = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
-  text: string
+  text: string | JSX.Element
 }
 
 export function Button(props: IButton) {

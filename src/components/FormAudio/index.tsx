@@ -3,6 +3,7 @@ import { api } from "../../services/api";
 import { AudioInput } from "../AudioInput";
 import { Button } from "../Button";
 import { Input } from "../Input";
+import { Loading } from "../Loading";
 import { Title } from "../Title";
 
 type IFormAudio = {
@@ -10,6 +11,8 @@ type IFormAudio = {
 }
 
 export function FormAudio({ toggleCreateAudio }: IFormAudio) {
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [timebox, setTimebox] = useState(0)
   const [file, setFile] = useState<File>({} as File)
@@ -17,7 +20,15 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setLoading(true)
+
     const formData = new FormData()
+
+    if(!name || !timebox || !file) {
+      setLoading(false)
+      setError('Por favor preencha todos os campos')
+      return
+    }
 
     formData.append('name', name)
     formData.append('timebox', String(timebox))
@@ -25,6 +36,7 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
 
     const { status } = await api.post('/audio/create', formData)
 
+    setLoading(false)
 
     if(status) {
       window.location.reload()
@@ -58,7 +70,8 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
       
         <AudioInput file={file} setFile={setFile} />
 
-        <Button text="Salvar" className="py-4 text-black-light text-sm bg-secundary" type="submit" />
+        {error !== '' && <p className="text-xs text-red-400 font-bold mt-2">{error}</p>}
+        <Button text={loading ? <Loading /> : 'Salvar'} className="py-4 text-black-light text-sm bg-secundary" type="submit" />
       </section>
     </form>
   )
