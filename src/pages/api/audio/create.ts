@@ -34,7 +34,7 @@ type IFaunaUser = {
 
 async function uploadAudioToCloud(file: File): Promise<any> {
 
-  const audio = cloudinary.v2.uploader.upload(
+  const audio = cloudinary.v2.uploader.upload_large(
     file.filepath,
     { resource_type: "auto", folder: 'black-pearl' }, 
     (error: Error, result: any) => {
@@ -81,8 +81,6 @@ export default async function handler(request: NextApiRequest, response: NextApi
       if(!name || !timebox) {
         return response.status(400).json({ message: 'Please fill all fields' })
       }
-
-      // Validar se é um audio
   
       if(!files.file) {
         return response.status(400).json({ message: 'Audio is required' })
