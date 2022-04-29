@@ -34,4 +34,6 @@ export default NextAuth({
       } catch (error) {}
     },
   },
+
+  secret: process.env.NEXTAUTH_SECRET,
 })
