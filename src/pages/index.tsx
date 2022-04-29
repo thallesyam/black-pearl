@@ -67,7 +67,7 @@ export default function Home({ user }: IHome) {
   return (
     <Layout title="Home">
       <main className="flex flex-col justify-between h-screen">
-        <Header />
+        <Header audiosLength={user?.audios.length} />
 
         {status === 'loading' ? (
           <Loading />

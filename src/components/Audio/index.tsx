@@ -30,7 +30,7 @@ export function Audio({ isShowButtons = true, isShowTimebox, title, url = '', cu
         )}
 
         <div>
-          <p className="text-xxs font-medium">{title}</p>
+          <p className="text-xxs font-medium overflow-hidden truncate w-20 md:w-full">{title}</p>
           {isShowTimebox && <p className="text-xxs">{isShowTimebox} min</p>}
         </div>
       </div>
