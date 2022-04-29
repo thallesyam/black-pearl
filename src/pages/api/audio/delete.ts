@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { query as q } from 'faunadb'
+
+import '../../../services/cloudinary'
 import cloudinary from 'cloudinary/cloudinary'
 
 import { fauna } from "../../../services/faunadb";
@@ -43,8 +45,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
   const audios = user.data.audios.filter(audio => audio.id !== id) 
   const audioToDelete = user.data.audios.find(audio => audio.id === id) 
   
-  cloudinary.uploader.destroy(
-    `${audioToDelete.public_id}.mp3`,
+  cloudinary.v2.uploader.destroy(
+    audioToDelete.public_id,
+    { resource_type : 'video' },
     function(result) {
       console.log(result)
      }

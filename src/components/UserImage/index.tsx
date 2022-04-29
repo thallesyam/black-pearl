@@ -9,7 +9,7 @@ export function UserImage() {
 
   return (
     <div className="flex gap-2 items-center">
-      <img src={data?.user?.image} alt={data?.user?.name} className="w-10 h-10 rounded-full" />
+      <img src={data?.user?.image} alt={data?.user?.name} className="w-10 h-10 rounded-full" referrerPolicy="no-referrer" />
 
       <div className="flex flex-col">
         <p className="text-white text-xs font-medium">{data?.user?.name}</p>

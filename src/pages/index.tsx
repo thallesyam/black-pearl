@@ -128,20 +128,25 @@ export default function Home({ user }: IHome) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { user: userLoggedIn } = await getSession({ req: context.req })
+  const user = await getSession({ req: context.req })
 
+  if (!user) {
+    return {
+      props: {}
+    }
+  }
 
   const response: IFaunaUser = await fauna.query(
-    q.Get(q.Match(q.Index('user_by_email'), userLoggedIn.email))
+    q.Get(q.Match(q.Index('user_by_email'), user?.user.email))
   )
 
-  const user = {
+  const data = {
     audios: response.data.audios
   }
 
   return {
     props: {
-      user
+      user: data
     },
 
   }

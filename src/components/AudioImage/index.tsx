@@ -10,7 +10,7 @@ export function AudioImage({ url, playing = false }: IAudioImage) {
   const { handleClickPlay, handleClickPause } = useAudio()
 
   return (
-    <ButtonBackground onClick={() => playing ? handleClickPause() :  handleClickPlay(url)} isLarge >
+    <ButtonBackground onClick={() => playing ? handleClickPause() :  handleClickPlay(url)} islarge="true" >
       {playing ? (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5.9375 3.4375H7.5V16.5625H5.9375V3.4375ZM13.9062 3.4375H12.6562C12.5703 3.4375 12.5 3.50781 12.5 3.59375V16.4062C12.5 16.4922 12.5703 16.5625 12.6562 16.5625H13.9062C13.9922 16.5625 14.0625 16.4922 14.0625 16.4062V3.59375C14.0625 3.50781 13.9922 3.4375 13.9062 3.4375Z" fill="#A136D3"/>

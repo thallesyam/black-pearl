@@ -22,7 +22,11 @@
 
 [x] - No Header da aplicação o usuário deve conseguir ver sua imagem e seu nome
 
-[] - Os audios devem reproduzir em sequencia 
+[x] - Os audios devem reproduzir em sequencia 
+
+[] - Deletar do cloudinary
+
+[] - force reload
 
 [] - Tratativa de estados
 
