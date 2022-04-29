@@ -5,7 +5,7 @@ import { ProgressBar } from "../ProgressBar"
 
 type IAudio = {
   title: string
-  url: string
+  url?: string
   isShowButtons?: boolean
   isShowTimebox?: number
   currentTime?: number
@@ -13,7 +13,7 @@ type IAudio = {
   videoId?: string
 }
 
-export function Audio({ isShowButtons = true, isShowTimebox, title, url, currentTime, videoTime, videoId }: IAudio) {
+export function Audio({ isShowButtons = true, isShowTimebox, title, url = '', currentTime, videoTime, videoId }: IAudio) {
   const { audioPlaying } = useAudio()
 
   const currentTimeToSeconds = currentTime / 60
