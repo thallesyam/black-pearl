@@ -24,18 +24,15 @@
 
 [x] - Os audios devem reproduzir em sequencia 
 
-[] - Deletar do cloudinary
+[x] - Deletar do cloudinary
 
-[] - force reload
+[x] - force reload
 
-[] - Tratativa de estados
+[x] - Tratativa de estados
 
 # Seria legal se tivesse:
 
-[] - O usuário deve poder remover um audio
-
-[] - O usuário deve poder editar um audio
-  [] - Nome
+[x] - O usuário deve poder remover um audio
 
 [] - O usuário deve poder ordenar seus audios 
 
