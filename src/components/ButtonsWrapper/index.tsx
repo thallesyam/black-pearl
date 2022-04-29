@@ -18,6 +18,8 @@ export function ButtonsWrapper({ videoId }: IButtonsWrapper) {
       notify('Ocorreu algum erro, tente novamente em alguns minutos!')
     }
 
+
+    notify('Audio deletado com sucesso')
     Router.reload()
   }
 
