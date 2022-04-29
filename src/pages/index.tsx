@@ -16,6 +16,7 @@ import { Title } from "../components/Title";
 import { useUser } from "../contexts/UserContext";
 import { GetServerSideProps } from "next";
 import { useAudio } from "../contexts/AudioContext";
+import { Loading } from "../components/Loading";
 
 type IAudio = {
   showName: string
@@ -63,15 +64,15 @@ export default function Home({ user }: IHome) {
     setIsCreateAudio(!isCreateAudio)
   }
 
-  if(status == 'loading') {
-    return <p>Loading</p>
-  }
-
   return (
     <Layout title="Home">
       <main className="flex flex-col justify-between h-screen">
         <Header />
 
+        {status === 'loading' ? (
+          <Loading />
+        ) : (
+          <>
         {isLogged ? (
           <AudiosWrapper>
             {isCreateAudio ? (
@@ -120,6 +121,10 @@ export default function Home({ user }: IHome) {
         ) : (
           <Login />
         )}
+          </>
+        )}
+
+
         
         <Footer />
       </main>
