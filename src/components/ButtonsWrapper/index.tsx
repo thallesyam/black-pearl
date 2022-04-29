@@ -14,6 +14,8 @@ export function ButtonsWrapper({ videoId }: IButtonsWrapper) {
       id: videoId
     })
 
+    console.log(status)
+
     if(status !== 200) {
       notify('Ocorreu algum erro, tente novamente em alguns minutos!')
     }

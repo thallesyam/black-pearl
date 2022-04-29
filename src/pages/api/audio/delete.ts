@@ -46,12 +46,9 @@ export default async function handler(request: NextApiRequest, response: NextApi
     const audios = user.data.audios.filter(audio => audio.id !== id) 
     const audioToDelete = user.data.audios.find(audio => audio.id === id) 
     
-    cloudinary.v2.uploader.destroy(
+    await cloudinary.v2.uploader.destroy(
       audioToDelete.public_id,
-      { resource_type : 'video' },
-      function(result) {
-        console.log(result)
-       }
+      { resource_type : 'video' }
     );
   
     await fauna.query(
@@ -61,7 +58,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
       )    
     )
   
-    return response.status(200)
+    return response.status(200).json({})
   } catch (error) {
     return response.status(500).json({ message: 'Internal server error' })
   }
