@@ -36,7 +36,7 @@ async function uploadAudioToCloud(file: File): Promise<any> {
 
   const audio = cloudinary.v2.uploader.upload(
     file.filepath,
-    { resource_type: "video", folder: 'black-pearl' }, 
+    { resource_type: "audio", folder: 'black-pearl' }, 
     (error: Error, result: any) => {
       if (!!error) {
         console.log('Audio error: ', error.message)
