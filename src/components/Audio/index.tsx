@@ -30,7 +30,6 @@ export function Audio({ isShowButtons = true, title, url = '', currentTime, vide
 
         <div>
           <p className="text-xxs font-medium overflow-hidden truncate w-20 md:w-full">{title}</p>
-          {videoTime && <p className="text-xxs">{videoTime} min</p>}
         </div>
       </div>
 
