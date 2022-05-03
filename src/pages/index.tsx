@@ -104,7 +104,6 @@ export default function Home({ user }: IHome) {
                       <Audio
                         videoId={audio.id} 
                         title={audio.showName} 
-                        isShowTimebox={audioRef?.current ? Math.floor(duration) : Number(audio.timebox) } 
                         url={audio.url}
                         currentTime={played}
                         videoTime={duration}

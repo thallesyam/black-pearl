@@ -7,13 +7,12 @@ type IAudio = {
   title: string
   url?: string
   isShowButtons?: boolean
-  isShowTimebox?: number
   currentTime?: number
   videoTime?: number
   videoId?: string
 }
 
-export function Audio({ isShowButtons = true, isShowTimebox, title, url = '', currentTime, videoTime, videoId }: IAudio) {
+export function Audio({ isShowButtons = true, title, url = '', currentTime, videoTime, videoId }: IAudio) {
   const { audioPlaying } = useAudio()
 
   const currentTimeToSeconds = currentTime / 60
@@ -31,7 +30,7 @@ export function Audio({ isShowButtons = true, isShowTimebox, title, url = '', cu
 
         <div>
           <p className="text-xxs font-medium overflow-hidden truncate w-20 md:w-full">{title}</p>
-          {isShowTimebox && <p className="text-xxs">{isShowTimebox} min</p>}
+          {videoTime && <p className="text-xxs">{videoTime} min</p>}
         </div>
       </div>
 
