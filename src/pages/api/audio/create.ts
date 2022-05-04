@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from "next-auth/react"
-import cloudinary from 'cloudinary/cloudinary'
-import formidable, { File } from 'formidable'
+import formidable from 'formidable'
 import moment from 'moment'
+import cloudinary from 'cloudinary/cloudinary'
 import { v4 as uuid } from 'uuid'
 import { query as q } from 'faunadb'
 
@@ -32,33 +32,6 @@ type IFaunaUser = {
   data: IUser
 }
 
-async function uploadAudioToCloud(file: File): Promise<any> {
-
-  const audio = cloudinary.v2.uploader.upload(
-    file.filepath,
-    { resource_type: "video", folder: 'black-pearl' }, 
-    (error: Error, result: any) => {
-      if (!!error) {
-        console.log('Audio error: ', error.message)
-      }
-
-      return result
-    }
-  )
-
-  return await audio
-}
-
-async function saveAudio(file: File) {
-  const image = await uploadAudioToCloud(file)
-  
-  return {
-    url: image.secure_url,
-    name: image.original_filename,
-    public_id: image.public_id
-  }
-}
-
 
 export default async function handler(request: NextApiRequest, response: NextApiResponse) { 
   const { method } = request
@@ -76,18 +49,18 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
   try {
     form.parse(request, async (err, fields, files) => {
-      const { name, timebox } = fields
+      const { name, timebox, url, public_id, audio_name } = fields
   
-      if(!name || !timebox) {
+      if(!name || !timebox || !url || !public_id || !audio_name) {
         return response.status(400).json({ message: 'Please fill all fields' })
       }
-  
-      if(!files.file) {
-        return response.status(400).json({ message: 'Audio is required' })
+
+      const audio = {
+        url,
+        name: audio_name,
+        public_id
       }
-  
-      const audio = await saveAudio(files.file as File)
-  
+      
       const data = {
         id: uuid(),
         ...audio,
@@ -111,7 +84,15 @@ export default async function handler(request: NextApiRequest, response: NextApi
       return response.status(200).json({ message: 'Upload realizado com sucesso'})
     })
   } catch (error) {
-    return response.status(500).json({ message: 'Internal server error' })
-  }
+    form.parse(request, async (err, fields, files) => {
+      const { public_id } = fields
+  
+      await cloudinary.v2.uploader.destroy(
+        public_id,
+        { resource_type : 'video' }
+      );
 
+      return response.status(500).json({ message: 'Internal server error' })
+    })
+  }
 }

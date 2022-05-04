@@ -23,6 +23,28 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
 
   const inputClasses = 'text-sm text-black h-10 w-full rounded-lg px-2 outline-none focus:border-primary-dark focus:border-2'
 
+  async function uploadAudioToCloud(file: any): Promise<any> {
+    const formData = new FormData()
+
+    formData.append('file', file)
+    formData.append('upload_preset', 'black-pearl')
+
+    const audio = await api.post(`https://api.cloudinary.com/v1_1/thalles/video/upload`, formData)
+
+    return audio.data
+  }
+  
+  async function saveAudio(file: any) {
+    const image = await uploadAudioToCloud(file)
+
+    return {
+      url: image.secure_url,
+      name: image.original_filename,
+      public_id: image.public_id
+    }
+  }
+  
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setLoading(true)
@@ -35,9 +57,13 @@ export function FormAudio({ toggleCreateAudio }: IFormAudio) {
       return
     }
 
+    const audio = await saveAudio(file)
+
     formData.append('name', name)
     formData.append('timebox', String(timebox))
-    formData.append('file', file)
+    formData.append('url', audio.url)
+    formData.append('audio_name', audio.name)
+    formData.append('public_id', audio.public_id)
 
     const { status } = await api.post('/audio/create', formData)
 
